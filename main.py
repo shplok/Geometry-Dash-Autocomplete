@@ -34,10 +34,7 @@ def search_for_auto_levels():
     # Adjust coordinates based on your screen/game setup
     click_position(100, 200)  # Example: Click the search menu button
     time.sleep(1)
-    
-    print("Typing 'auto'...")
-    pyautogui.write("auto", interval=0.1)  # Type "auto" into the search bar
-    time.sleep(1)
+
 
     print("Pressing search...")
     click_position(150, 300)  # Example: Click the search button
