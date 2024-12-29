@@ -32,10 +32,10 @@ def capture_screen(region=None):
 # locate an image on the screen
 def locate_image_on_screen(template_path, region=None, threshold=0.8):
     screen = capture_screen(region)
-    template = cv2.imread(template_path, cv2.IMREAD_GRAYSCALE)
-    screen_gray = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
+    template = cv2.imread(template_path, cv2.IMREAD_COLOR)
 
-    res = cv2.matchTemplate(screen_gray, template, cv2.TM_CCOEFF_NORMED)
+    # Match templates using color
+    res = cv2.matchTemplate(screen, template, cv2.TM_CCOEFF_NORMED)
     _, max_val, _, max_loc = cv2.minMaxLoc(res)
 
     if max_val >= threshold:
@@ -55,7 +55,6 @@ def search_for_auto_levels():
     time.sleep(0.2)
     print("pressing search...")
     click_normalized(0.66, 0.1)
-
 
 
 # check if the level is downloaded and download if necessary
@@ -79,6 +78,8 @@ def check_and_download_level(download_icon_path, play_button_path):
             print("play button not found")
     else:
         print("level already downloaded. skipping")
+
+
 # main function to run the bot
 def main():
     print("starting the geometry dash bot...")
