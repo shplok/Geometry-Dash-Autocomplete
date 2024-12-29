@@ -94,8 +94,9 @@ def main():
     while True:
         check_and_download_level(download_icon_path, play_button_path)
 
-        print("moving to the next level...")
-        click_normalized(0.5, 0.8)  # adjust normalized coordinates for the "next level" button
+        print("scrolling down...")
+        for i in range(7):
+            pyautogui.scroll(-1)  # adjust normalized coordinates for the "next level" button
         time.sleep(2)
 
 if __name__ == "__main__":
