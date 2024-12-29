@@ -4,7 +4,26 @@ import cv2
 import numpy as np
 import mss
 
+def get_screen_size():
+    """Get the current screen dimensions."""
+    screen_width, screen_height = pyautogui.size()
+    return screen_width, screen_height
+
+def normalize_coordinates(normalized_x, normalized_y):
+    """Convert normalized coordinates to absolute screen coordinates."""
+    screen_width, screen_height = get_screen_size()
+    x = int(normalized_x * screen_width)
+    y = int(normalized_y * screen_height)
+    return x, y
+
+def click_normalized(normalized_x, normalized_y):
+    """Click at a position defined by normalized coordinates."""
+    x, y = normalize_coordinates(normalized_x, normalized_y)
+    pyautogui.moveTo(x, y, duration=0.2)
+    pyautogui.click()
+
 def capture_screen(region=None):
+    """Capture a screenshot of the screen or a region."""
     with mss.mss() as sct:
         screenshot = sct.grab(region or sct.monitors[1])
         img = np.array(screenshot)
@@ -23,21 +42,15 @@ def locate_image_on_screen(template_path, region=None, threshold=0.8):
         return max_loc  # Return top-left corner of the match
     return None
 
-def click_position(x, y):
-    """Move the mouse to a position and click."""
-    pyautogui.moveTo(x, y, duration=0.2)
-    pyautogui.click()
-
 def search_for_auto_levels():
     """Navigate to the search menu and search for 'auto' levels."""
-    print("Navigating to the search menu...")
-    # Adjust coordinates based on your screen/game setup
-    click_position(100, 200)  # Example: Click the search menu button
+    print("Navigating to the search menu from the main menu...")
+    # Example: Normalized coordinates for the search menu button
+    click_normalized(0.1, 0.2)  # Adjust based on game UI
     time.sleep(1)
 
-
     print("Pressing search...")
-    click_position(150, 300)  # Example: Click the search button
+    click_normalized(0.15, 0.3)  # Adjust based on game UI
     time.sleep(2)
 
 def check_and_download_level(download_icon_path, play_button_path):
@@ -64,14 +77,15 @@ def main():
     search_for_auto_levels()
 
     # Paths to template images for detection
-    download_icon_path = "images/download_icon.png"
-    play_button_path = "images/play_button.png"
+    download_icon_path = "get_button.png"  # Replace with actual image path
+    play_button_path = "view_button.png"  # Replace with actual image path
 
     while True:
         check_and_download_level(download_icon_path, play_button_path)
-        # Implement logic to move to the next level in the list
+        
+        # Move to the next level in the list
         print("Moving to the next level...")
-        click_position(500, 600)  # Example: Click the next level button
+        click_normalized(0.5, 0.8)  # Adjust normalized coordinates for the "next level" button
         time.sleep(2)
 
 if __name__ == "__main__":
