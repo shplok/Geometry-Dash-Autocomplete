@@ -3,6 +3,12 @@ import time
 import cv2
 import numpy as np
 import mss
+import os
+
+# Get the absolute path of the images relative to the script's directory
+script_dir = os.path.dirname(os.path.abspath(__file__))
+download_icon_path = os.path.join(script_dir, "get_button.png")
+play_button_path = os.path.join(script_dir, "view_button.png")
 
 # get the current screen dimensions
 def get_screen_size():
@@ -87,9 +93,6 @@ def main():
 
     search_for_auto_levels()
 
-    # paths to template images for detection
-    download_icon_path = "get_button.png"  # replace with actual image path
-    play_button_path = "view_button.png"  # replace with actual image path
 
     while True:
         check_and_download_level(download_icon_path, play_button_path)
