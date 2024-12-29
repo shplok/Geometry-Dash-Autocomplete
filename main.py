@@ -45,12 +45,18 @@ def locate_image_on_screen(template_path, region=None, threshold=0.8):
 # navigate to the search menu and search for 'auto' levels
 def search_for_auto_levels():
     print("navigating to the search menu from the main menu...")
-    click_normalized(0.1, 0.2)  # adjust based on game ui
-    time.sleep(1)
-
+    click_normalized(0.7, 0.5)  # adjust based on game ui
+    time.sleep(0.2)
+    print("configuring search...")
+    click_normalized(0.85, 0.75)  # adjust based on game ui
+    time.sleep(0.2)
+    click_normalized(0.25, 0.75)
+    click_normalized(0.85, 0.75)
+    time.sleep(0.2)
     print("pressing search...")
-    click_normalized(0.15, 0.3)  # adjust based on game ui
-    time.sleep(2)
+    click_normalized(0.66, 0.1)
+
+
 
 # check if the level is downloaded and download if necessary
 def check_and_download_level(download_icon_path, play_button_path):
@@ -58,20 +64,21 @@ def check_and_download_level(download_icon_path, play_button_path):
     download_icon_pos = locate_image_on_screen(download_icon_path)
     if download_icon_pos:
         print("level not downloaded. downloading now...")
-        click_position(*download_icon_pos)  # unpack (x, y) coordinates
+        pyautogui.moveTo(download_icon_pos[0], download_icon_pos[1], duration=0.2)
+        pyautogui.click()
         time.sleep(2)
 
         print("checking for the play button...")
         play_button_pos = locate_image_on_screen(play_button_path)
         if play_button_pos:
             print("starting the level...")
-            click_position(*play_button_pos)
+            pyautogui.moveTo(play_button_pos[0], play_button_pos[1], duration=0.2)
+            pyautogui.click()
             time.sleep(2)
         else:
             print("play button not found")
     else:
         print("level already downloaded. skipping")
-
 # main function to run the bot
 def main():
     print("starting the geometry dash bot...")
