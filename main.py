@@ -130,39 +130,42 @@ def check_and_download_level(download_icon_path, play_button_path):
         level_counter = 0
 
 def play_level():
-
     global is_playing
     is_playing = True
 
     print("Playing level...")
-    click_normalized(0.5,0.35)
+    click_normalized(0.5, 0.35)
     print("Confirming...")
     time.sleep(1)
-    click_normalized(0.65,0.68)
+    click_normalized(0.65, 0.68)  # for undownloaded song
+    time.sleep(0.5)
+    click_normalized(0.65, 0.68)  # for high obj count
 
     while True:
         level_over_pos = locate_image_on_screen(menu_button_path)
         if level_over_pos:
             print("Level over detected!")
-            click_normalized(0.7,0.15)
+            click_normalized(0.7, 0.15)
             back_button_pos = locate_image_on_screen(menu_button_path)
             if back_button_pos:
                 pyautogui.moveTo(back_button_pos[0], back_button_pos[1], duration=0.2)
                 pyautogui.click()
                 time.sleep(1)
-                click_normalized(0.07,0.1)
+                click_normalized(0.07, 0.1)
             else:
                 print("Exit button not found, attempting to click on coordinates to go back...")
-                click_normalized(0.07,0.1)
-                # If no back button found, attempt clicking a known exit area
+                click_normalized(0.07, 0.1)
                 time.sleep(1)
-                click_normalized(0.07,0.1)
-                
+                click_normalized(0.07, 0.1)
+            
+            # Add these lines to break the loop and reset is_playing
+            print("Level completed, returning to menu...")
+            is_playing = False
+            break
+            
         time.sleep(1)  # Check every 1 second to reduce CPU usage
 
     print("Level completed.")
-    is_playing = False
-
 
 # Main function to run the bot
 def main():
