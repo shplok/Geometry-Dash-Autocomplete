@@ -9,7 +9,8 @@ import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 download_icon_path = r"C:\Users\sawye\OneDrive - University of Massachusetts Boston\Desktop\Code Related Projects\Geometry-Dash-Autocomplete\Geometry-Dash-Autocomplete\get_button.png"
 play_button_path = r"C:\Users\sawye\OneDrive - University of Massachusetts Boston\Desktop\Code Related Projects\Geometry-Dash-Autocomplete\Geometry-Dash-Autocomplete\view_button.png"
-level_over_path = r"C:\Users\sawye\OneDrive - University of Massachusetts Boston\Desktop\Code Related Projects\Geometry-Dash-Autocomplete\Geometry-Dash-Autocomplete\level_over_signifier.png"
+menu_button_path = r"C:\Users\sawye\OneDrive - University of Massachusetts Boston\Desktop\Code Related Projects\Geometry-Dash-Autocomplete\Geometry-Dash-Autocomplete\menu_button.png"
+
 
 level_counter = 0
 is_playing = False
@@ -77,10 +78,10 @@ def click_normalized(normalized_x, normalized_y):
 # Navigate to the search menu and search for 'auto' levels
 def search_for_auto_levels():
     print("Navigating to the search menu from the main menu...")
-    click_normalized(0.7, 0.5)  # adjust based on game UI
+    click_normalized(0.7, 0.5) 
     time.sleep(0.2)
     print("Configuring search...")
-    click_normalized(0.85, 0.75)  # adjust based on game UI
+    click_normalized(0.85, 0.75)
     time.sleep(0.2)
     click_normalized(0.25, 0.75)
     click_normalized(0.85, 0.75)
@@ -90,6 +91,7 @@ def search_for_auto_levels():
 
 def change_page():
     print("Changing Page!")
+    click_normalized(0.85,0.5)
 
 # Check if the level is downloaded and download if necessary
 def check_and_download_level(download_icon_path, play_button_path):
@@ -134,14 +136,24 @@ def play_level():
     print("Playing level...")
     click_normalized(0.5,0.35)
     print("Confirming...")
+    time.sleep(1)
     click_normalized(0.65,0.28)
 
     while True:
-        level_over_pos = locate_image_on_screen(level_over_path)
+        level_over_pos = locate_image_on_screen(menu_button_path)
         if level_over_pos:
             print("Level over detected!")
             click_normalized(0.7,0.15)
-            break
+            back_button_pos = locate_image_on_screen(menu_button_path)
+            if back_button_pos:
+                pyautogui.moveTo(back_button_pos[0], back_button_pos[1], duration=0.2)
+                pyautogui.click()
+                click_normalized(0.1,0.85)
+            else:
+                print("Exit button not found, attempting to click on coordinates to go back...")
+                # If no back button found, attempt clicking a known exit area (adjust coordinates)
+                click_normalized(0.7, 0.15)
+                break
         time.sleep(1)  # Check every 1 second to reduce CPU usage
 
     print("Level completed.")
@@ -163,7 +175,7 @@ def main():
         print("Scrolling down...")
         for _ in range(7):
             pyautogui.scroll(-300)
-        time.sleep(2)
+        time.sleep(0.5)
 
 if __name__ == "__main__":
     main()
