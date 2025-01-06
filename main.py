@@ -11,6 +11,9 @@ download_icon_path = r"C:\Users\sawye\OneDrive - University of Massachusetts Bos
 play_button_path = r"C:\Users\sawye\OneDrive - University of Massachusetts Boston\Desktop\Code Related Projects\Geometry-Dash-Autocomplete\Geometry-Dash-Autocomplete\view_button.png"
 level_over_path = r"C:\Users\sawye\OneDrive - University of Massachusetts Boston\Desktop\Code Related Projects\Geometry-Dash-Autocomplete\Geometry-Dash-Autocomplete\level_over_signifier.png"
 
+level_counter = 0
+is_playing = False
+
 # Get the current screen dimensions
 def get_screen_size():
     screen_width, screen_height = pyautogui.size()
@@ -85,8 +88,17 @@ def search_for_auto_levels():
     print("Pressing search...")
     click_normalized(0.66, 0.1)
 
+def change_page():
+    print("Changing Page!")
+
 # Check if the level is downloaded and download if necessary
 def check_and_download_level(download_icon_path, play_button_path):
+    global level_counter, is_playing
+
+    if is_playing:
+        print("Currently playing a level. Skipping level detection.")
+        return
+
     print("Checking for the download icon...")
     download_icon_pos = locate_image_on_screen(download_icon_path)
     if download_icon_pos:
@@ -103,34 +115,55 @@ def check_and_download_level(download_icon_path, play_button_path):
             pyautogui.moveTo(play_button_pos[0], play_button_pos[1], duration=0.2)
             pyautogui.click()
             time.sleep(2)
+            level_counter += 1
         else:
-            
-            print("Play button not found")
+            print("Play button not found.")
+            level_counter += 1
     else:
-        print("Level already downloaded. Skipping")
+        print("Level already downloaded. Skipping.")
+        level_counter += 1
+
+    if level_counter >= 10:
+        change_page()
 
 def play_level():
+
+    global is_playing
+    is_playing = True
+
     print("Playing level...")
     click_normalized(0.5,0.35)
     print("Confirming...")
     click_normalized(0.65,0.28)
 
+    while True:
+        level_over_pos = locate_image_on_screen(level_over_path)
+        if level_over_pos:
+            print("Level over detected!")
+            click_normalized(0.7,0.15)
+            break
+        time.sleep(1)  # Check every 1 second to reduce CPU usage
+
+    print("Level completed.")
+    is_playing = False
+
 
 # Main function to run the bot
 def main():
-    print("Starting bot...")
+    global is_playing
+    print("Starting bot... Switch to Game!")
     time.sleep(3)  # Allow time to switch to the game
 
     search_for_auto_levels()
 
     while True:
-        check_and_download_level(download_icon_path, play_button_path)
+        if not is_playing:
+            check_and_download_level(download_icon_path, play_button_path)
 
         print("Scrolling down...")
         for _ in range(7):
-            pyautogui.scroll(-300) 
+            pyautogui.scroll(-300)
         time.sleep(2)
-    
 
 if __name__ == "__main__":
     main()
