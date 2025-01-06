@@ -9,6 +9,7 @@ import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 download_icon_path = r"C:\Users\sawye\OneDrive - University of Massachusetts Boston\Desktop\Code Related Projects\Geometry-Dash-Autocomplete\Geometry-Dash-Autocomplete\get_button.png"
 play_button_path = r"C:\Users\sawye\OneDrive - University of Massachusetts Boston\Desktop\Code Related Projects\Geometry-Dash-Autocomplete\Geometry-Dash-Autocomplete\view_button.png"
+level_over_path = r"C:\Users\sawye\OneDrive - University of Massachusetts Boston\Desktop\Code Related Projects\Geometry-Dash-Autocomplete\Geometry-Dash-Autocomplete\level_over_signifier.png"
 
 # Get the current screen dimensions
 def get_screen_size():
