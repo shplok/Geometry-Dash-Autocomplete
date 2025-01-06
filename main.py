@@ -91,7 +91,7 @@ def search_for_auto_levels():
 
 def change_page():
     print("Changing Page!")
-    click_normalized(0.85,0.5)
+    click_normalized(0.95,0.5)
 
 # Check if the level is downloaded and download if necessary
 def check_and_download_level(download_icon_path, play_button_path):
@@ -127,6 +127,7 @@ def check_and_download_level(download_icon_path, play_button_path):
 
     if level_counter >= 10:
         change_page()
+        level_counter = 0
 
 def play_level():
 
@@ -137,7 +138,7 @@ def play_level():
     click_normalized(0.5,0.35)
     print("Confirming...")
     time.sleep(1)
-    click_normalized(0.65,0.28)
+    click_normalized(0.65,0.68)
 
     while True:
         level_over_pos = locate_image_on_screen(menu_button_path)
@@ -148,11 +149,14 @@ def play_level():
             if back_button_pos:
                 pyautogui.moveTo(back_button_pos[0], back_button_pos[1], duration=0.2)
                 pyautogui.click()
-                click_normalized(0.1,0.85)
+                time.sleep(1)
+                click_normalized(0.07,0.1)
             else:
                 print("Exit button not found, attempting to click on coordinates to go back...")
                 # If no back button found, attempt clicking a known exit area (adjust coordinates)
                 click_normalized(0.7, 0.15)
+                time.sleep(1)
+                click_normalized(0.07,0.1)
                 break
         time.sleep(1)  # Check every 1 second to reduce CPU usage
 
@@ -171,11 +175,11 @@ def main():
     while True:
         if not is_playing:
             check_and_download_level(download_icon_path, play_button_path)
-
-        print("Scrolling down...")
-        for _ in range(7):
-            pyautogui.scroll(-300)
-        time.sleep(0.5)
+        if level_counter >= 1:
+            print("Scrolling down...")
+            for _ in range(7):
+                pyautogui.scroll(-300)
+            time.sleep(0.1)
 
 if __name__ == "__main__":
     main()
