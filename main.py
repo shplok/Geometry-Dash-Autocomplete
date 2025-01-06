@@ -153,11 +153,11 @@ def play_level():
                 click_normalized(0.07,0.1)
             else:
                 print("Exit button not found, attempting to click on coordinates to go back...")
-                # If no back button found, attempt clicking a known exit area (adjust coordinates)
-                click_normalized(0.7, 0.15)
+                click_normalized(0.07,0.1)
+                # If no back button found, attempt clicking a known exit area
                 time.sleep(1)
                 click_normalized(0.07,0.1)
-                break
+                
         time.sleep(1)  # Check every 1 second to reduce CPU usage
 
     print("Level completed.")
