@@ -26,6 +26,4 @@ Whether you're a game enthusiast or a developer looking for inspiration, this bo
 - pip (Python package manager)  
 
 ### Dependencies  
-Install the required dependencies using:  
-```bash
-pip install -r requirements.txt
+tbd
